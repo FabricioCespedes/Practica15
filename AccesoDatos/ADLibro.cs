@@ -351,6 +351,35 @@ namespace AccesoDatos
             }
             return result;
         }
+
+        public DataTable listarTodosLibros(string condicion, bool desdeVista)
+        {
+            DataTable dataTable = new DataTable();
+            SqlDataAdapter sqlDataAdapter;
+            SqlConnection connection = new SqlConnection(cadConexion);
+            string sentencia = "SELECT * FROM vLibros";
+            if (!string.IsNullOrEmpty(condicion))
+            {
+                sentencia = $"{sentencia} WHERE {condicion}";
+            }
+
+            try
+            {
+                sqlDataAdapter = new SqlDataAdapter(sentencia, connection);
+                sqlDataAdapter.Fill(dataTable);
+               
+            }
+            catch (Exception)
+            {
+                throw new Exception("Se ha presentado un error en la seleccion de libros");
+            }
+            finally
+            {
+                connection.Dispose();
+            }
+            return dataTable;
+        }
+
         #endregion
     }
 }

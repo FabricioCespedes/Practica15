@@ -11,6 +11,7 @@ namespace LogicaNegocio
     {
         private string mensaje;
         private string cadConexion;
+        ADLibro adLibro ;
 
         #region Constructores
         public LNLibro() {
@@ -20,14 +21,13 @@ namespace LogicaNegocio
         public LNLibro(string cadena) {
             mensaje = string.Empty;
             cadConexion = cadena;
+            adLibro = new ADLibro(cadConexion);
         }
         #endregion
 
         #region Metrodos
         public bool libroRepetido(ELibro libro) {
             bool result = false;
-            ADLibro adLibro = new ADLibro(cadConexion);
-
             try
             {
                 result = adLibro.libroRepetido(libro);
@@ -43,8 +43,6 @@ namespace LogicaNegocio
         public bool claveLibroRepetida(string clave)
         {
             bool result = false;
-            ADLibro adLibro = new ADLibro(cadConexion);
-
             try
             {
                 result = adLibro.claveLibroRepetida(clave);
@@ -59,8 +57,6 @@ namespace LogicaNegocio
 
         public int insertar(ELibro libro) {
             int result;
-            ADLibro adLibro = new ADLibro(cadConexion);
-
             try
             {
                 result = adLibro.insertar(libro);
@@ -74,8 +70,6 @@ namespace LogicaNegocio
 
         public DataSet listarTodos(string condicion = "") {
             DataSet setLibros;
-            ADLibro adLibro = new ADLibro(cadConexion);
-
             try
             {
                 setLibros = adLibro.listarTodos(condicion);
@@ -91,12 +85,9 @@ namespace LogicaNegocio
 
         public ELibro buscarRegistro(string condicion) {
             ELibro libro;
-            ADLibro adl = new ADLibro(cadConexion);
-
-
             try
             {
-                libro = adl.buscarRegistro(condicion);
+                libro = adLibro.buscarRegistro(condicion);
             }
             catch (Exception ex)
             {
@@ -109,11 +100,9 @@ namespace LogicaNegocio
 
         public int eliminar(ELibro libro) {
             int result;
-            ADLibro adl = new ADLibro(cadConexion);
-
             try
             {
-                result = adl.eliminar(libro);
+                result = adLibro.eliminar(libro);
             }
             catch (Exception ex)
             {
@@ -123,11 +112,9 @@ namespace LogicaNegocio
         }
 
         public string eliminarProcedure(ELibro libro) {
-            ADLibro adl = new ADLibro(cadConexion);
-
             try
             {
-                mensaje = adl.eliminarProcedure(libro);
+                mensaje = adLibro.eliminarProcedure(libro);
             }
             catch (Exception ex)
             {
@@ -138,18 +125,31 @@ namespace LogicaNegocio
 
         public int modificar(ELibro libro, string claveVieja = "") {
             int result;
-
-            ADLibro adl = new ADLibro(cadConexion);
-
             try
             {
-                result = adl.modificar(libro, claveVieja);
+                result = adLibro.modificar(libro, claveVieja);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
             return result;
+        }
+
+        public DataTable listarTodosLibros(string condicion, bool desdeVista)
+        {
+            DataTable dataTable;
+
+            try
+            {
+                dataTable = adLibro.listarTodosLibros(condicion, desdeVista);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return dataTable;
         }
         #endregion
     }
