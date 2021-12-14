@@ -36,11 +36,11 @@
                 <asp:Label ID="Label4" runat="server" Text="Categoria"></asp:Label>
                 <div class="input-group mb-3">
                     <asp:TextBox ID="txtCategoria" runat="server" CssClass="form-control" ReadOnly="true" aria-describedby="btnModalCaterogia"></asp:TextBox>
-                    <button class="btn btn-outline-primary" type="button" id="btnModalCaterogia">Buscar</button>
+                    <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal"  data-bs-target="#modalCategoria"  id="btnModalCaterogia">Buscar</button>
                 </div>
             </div>
             <div class="col-3">
-                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" />
+                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
             </div>
             <div class="col-3">
                   <asp:Button ID="btnRegresar" runat="server" Text="Regresar" CssClass="btn btn-warning" />
@@ -109,10 +109,46 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Modal body text goes here.</p>
+                    <div class="row mt-3">
+                        <div class="col-auto">
+                            <asp:Label ID="Label6" runat="server" Text="Categoria"></asp:Label>
+                        </div>
+                        <div class="col-auto">
+                            <asp:TextBox ID="txtFiltroCategoria" runat="server" CssClass="form-control" ValidationGroup="1"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Debe escribir algo" ControlToValidate="txtFiltroCategoria" Font-Italic="True" ForeColor="Red" ValidationGroup="1"></asp:RequiredFieldValidator>
+                        </div>
+                        <div class="col-auto">
+                            <asp:Button ID="btnFiltroCategoria" runat="server" Text="Filtar" CssClass=" btn btn-primary" OnClick="btnFiltroCategoria_Click" ValidationGroup="1" />
+                        </div>
+                        <asp:GridView ID="gvCategorias" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" Width="100%">
+                            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                            <Columns>
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkCategoria" runat="server" CommandArgument='<%# Eval("claveCategoria").ToString() %>'>Seleccionar</asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="claveCategoria" HeaderText="Clave Categoria" />
+                                <asp:BoundField DataField="descripcion" HeaderText="Descripcion" />
+                            </Columns>
+                            <EditRowStyle BackColor="#999999" />
+                            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                            <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                            <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                            <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+                        </asp:GridView>
+
+
+
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

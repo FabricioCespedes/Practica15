@@ -19,10 +19,31 @@ namespace PresentacionWeb
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            cargarDataGrid();
+            cargarGridAutores();
+            cargarGridCategorias();
         }
 
-        private void cargarDataGrid(string condicion ="")
+        private void cargarGridCategorias(string condicion = "")
+        {
+            try
+            {
+                DataTable dataTable;
+
+                dataTable = lNCategoria.ListarRegistros(condicion);
+                if (dataTable != null)
+                {
+                    gvCategorias.DataSource = dataTable;
+                    gvCategorias.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Session["_err"] = $"Error: {ex.Message}";
+            }
+        }
+
+        private void cargarGridAutores(string condicion ="")
         {
             try
             {
@@ -44,9 +65,21 @@ namespace PresentacionWeb
 
         protected void bntBuscarAutor_Click(object sender, EventArgs e)
         {
-            cargarDataGrid($" nombre like '%{txtNombreAutor.Text}%'");
+            cargarGridAutores($" nombre like '%{txtNombreAutor.Text}%'");
             string javaScript = "abrirModal();";
             ScriptManager.RegisterStartupScript(this,this.GetType(),"script",javaScript,true);
+        }
+
+        protected void btnGuardar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnFiltroCategoria_Click(object sender, EventArgs e)
+        {
+            cargarGridCategorias($" descripcion like '%{txtFiltroCategoria.Text}%'");
+            string javaScript = "abrirModal2();";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
         }
     }
 }
