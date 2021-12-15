@@ -74,6 +74,7 @@
     <Content Include="Web.config" />
     <Content Include="wfrLibro.aspx" />
     <Content Include="wfrmInicio.aspx" />
+    <Content Include="wfrmLibroEliminar.aspx" />
     <Content Include="wfrmVistaLibros.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +93,13 @@
     </Compile>
     <Compile Include="wfrmInicio.aspx.designer.cs">
       <DependentUpon>wfrmInicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfrmLibroEliminar.aspx.cs">
+      <DependentUpon>wfrmLibroEliminar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfrmLibroEliminar.aspx.designer.cs">
+      <DependentUpon>wfrmLibroEliminar.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfrmVistaLibros.aspx.cs">
       <DependentUpon>wfrmVistaLibros.aspx</DependentUpon>

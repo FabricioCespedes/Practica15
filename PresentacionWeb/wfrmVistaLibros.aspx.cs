@@ -72,9 +72,7 @@ namespace PresentacionWeb
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            string condicion =
-                condicion = $" titulo like '%{txtTitulo.Text}%'";
-            
+            string condicion = condicion = $" titulo like '%{txtTitulo.Text}%'";
             cargarDataGrid(condicion);
         }
 
@@ -86,6 +84,12 @@ namespace PresentacionWeb
         protected void btnNuevo_Click(object sender, EventArgs e)
         {
             Response.Redirect("wfrLibro.aspx");
+        }
+
+        protected void lnkEliminar_Command(object sender, CommandEventArgs e)
+        {
+            Session["_claveLibro"] = e.CommandArgument.ToString();
+            Response.Redirect("wfrmLibroEliminar.aspx");
         }
     }
 }

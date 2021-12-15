@@ -7,7 +7,6 @@
             <h1>Gestionar Libros</h1>
         </div>
         <br />
-
         <%--Alert--%>
         <%if (Session["_err"]!=null)
             {%>
@@ -24,41 +23,37 @@
                      <% = Session["_wrn"]%>  
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-
         <% }%>
-
         <%--AlertEND--%>
         <div class="row mt-3">
             <div class="col-auto">
                 <asp:Label ID="Label1" runat="server" Text="Titulo del libro"></asp:Label> 
-
             </div>
             <div class="col-auto form-control">
                 <asp:TextBox ID="txtTitulo" runat="server" ToolTip="Escriba aqui el texto que desea buscar" ValidationGroup="1"></asp:TextBox>  
                 <asp:Button ID="btnBuscar" CssClass="btn btn-primary" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
                 <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" class="btn btn-outline-secondary" OnClick="btnLimpiar_Click" /> 
-
                 <asp:Button ID="btnNuevo" runat="server" Text="Nuevo" CssClass="btn btn-outline-info" OnClick="btnNuevo_Click" />
             </div>
         </div>
-
            <asp:RequiredFieldValidator ID="rfvTxttitulo" runat="server" ErrorMessage="Por favor digite algun texto para buscar" ControlToValidate="txtTitulo" Font-Italic="True" ForeColor="#FF5050" ValidationGroup="1"></asp:RequiredFieldValidator>
-
         <br />
         <asp:GridView ID="gvLibros" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="2px" CellPadding="10" ForeColor="#3333FF" GridLines="Vertical" Width="100%" AllowPaging="True" EmptyDataText="No ahí datos que mostrar, inserte uno nuevo." OnPageIndexChanging="gvLibros_PageIndexChanging" PageSize="15">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkModificar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>' OnCommand="lnkModificar_Command">Modificar</asp:LinkButton>
+                        <asp:LinkButton ID="lnkModificar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>' OnCommand="lnkModificar_Command" ForeColor="#33CC33">M<i class="fas fa-edit"></i></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkEliminar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>'>Eliminar</asp:LinkButton>
+                        <asp:LinkButton ID="lnkEliminar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>' ForeColor="Red" OnCommand="lnkEliminar_Command">E<i class="far fa-trash-alt"></i></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField="Clave" HeaderText="Clave" />
+                <asp:BoundField DataField="Clave" HeaderText="Clave" >
+                <ItemStyle ForeColor="Black" />
+                </asp:BoundField>
                 <asp:BoundField DataField="Titulo" HeaderText="Titulo" />
                 <asp:BoundField DataField="Nombre" HeaderText="Autor" />
                 <asp:BoundField DataField="Categoria" HeaderText="Categoria" />
