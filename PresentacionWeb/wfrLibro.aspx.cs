@@ -15,12 +15,40 @@ namespace PresentacionWeb
         LNAutor lNAutor = new LNAutor(Config.getCadConexion);
         LNCategoria lNCategoria = new LNCategoria(Config.getCadConexion);
         LNLibro lNLibro = new LNLibro(Config.getCadConexion);
-        ELibro eLibro = new ELibro();
+        ELibro libro = new ELibro();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            cargarGridAutores();
-            cargarGridCategorias();
+            string condicion;
+            if (!IsPostBack)
+            {
+                limpiar();
+                if (Session["_claveLibro"] != null)
+                {
+                    condicion = $" claveLibro = '{Session["_claveLibro"].ToString()}'";
+                    libro = lNLibro.buscarRegistro(condicion);
+                    if (libro != null)
+                    {
+                        txtClaveLibro.Text = Session["_claveLibro"].ToString();
+                        txtIdAutor.Text = libro.ClaveAutor;
+                        txtTitulo.Text = libro.Titulo;
+                        txtUdCategoria.Text = libro.Clavecategoria.ClaveCategoria;
+                        recuperarAutor(libro.ClaveAutor);
+                        recuperarCategoria(libro.Clavecategoria.ClaveCategoria);
+                        HttpCookie cookie = new HttpCookie("SessionUser");
+                        if (cookie != null)
+                        {
+                            cookie["_claveLibro"] = Session["_claveLibro"].ToString();
+                            cookie["_idAutor"] = libro.ClaveAutor;
+                            cookie["_idCategoria"] = libro.Clavecategoria.ClaveCategoria;
+                            cookie["_titulo"] = libro.Titulo;
+                            cookie.Expires = DateTime.Now.AddDays(1);
+                        }
+                    }
+                }
+
+            }
+
         }
 
         private void cargarGridCategorias(string condicion = "")
@@ -70,29 +98,61 @@ namespace PresentacionWeb
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            // 
             try
             {
-                if (lNLibro.claveLibroRepetida(txtClaveLibro.Text) == false)
+                if (Session["_claveLibro"] != null)
                 {
-                    ECategoria eCategoria = new ECategoria(txtUdCategoria.Text, txtCategoria.Text);
-                    eLibro = new ELibro(txtClaveLibro.Text, txtTitulo.Text, txtIdAutor.Text, eCategoria, false);
-                    if (lNLibro.libroRepetido(eLibro) ==  false)
+                    bool bCl =false ;  bool bT = false; bool bAu = false; bool bCat = false;
+
+                    if (verificarAlgunCambio(ref bCl, ref bT, ref  bAu, ref bCat) == true)
                     {
-                        if (lNLibro.insertar(eLibro) > 0)
+                        libro.ClaveLibro = txtClaveLibro.Text;
+                        libro.Titulo = txtTitulo.Text;
+                        libro.ClaveAutor = txtIdAutor.Text;
+                        libro.Clavecategoria.ClaveCategoria = txtUdCategoria.Text;
+
+                        if (libro.ClaveLibro != Session["_claveLibro"].ToString())
                         {
-                            Session["_exito"] = " Mensaje: Ha guardado el libro con exito ";
-                            limpiar();
+                            if (lNLibro.claveLibroRepetida(libro.ClaveLibro) == false)
+                            {
+                                cambiosTituloAutor(Session["_claveLibro"].ToString(), libro.ClaveAutor, libro.Titulo);
+                            }
+                            else
+                            {
+                                Session["_wrn"] = " Atencion: La clave del libro ya esta en uso";
+                            }
                         }
-                    }
-                    else
-                    {
-                        Session["_wrn"] = " Atencion: Ese titulo ya existe ";
+                        else
+                        {
+                            cambiosTituloAutor("", libro.ClaveAutor, libro.Titulo);
+                        }
                     }
                 }
                 else
                 {
-                    Session["_wrn"] = " Atencion: La clave del libro ya esta en uso";
-                }
+                    if (lNLibro.claveLibroRepetida(txtClaveLibro.Text) == false)
+                    {
+                        ECategoria eCategoria = new ECategoria(txtUdCategoria.Text, txtCategoria.Text);
+                        libro = new ELibro(txtClaveLibro.Text, txtTitulo.Text, txtIdAutor.Text, eCategoria, false);
+                        if (lNLibro.libroRepetido(libro) == false)
+                        {
+                            if (lNLibro.insertar(libro) > 0)
+                            {
+                                Session["_exito"] = " Mensaje: Ha guardado el libro con exito ";
+                                limpiar();
+                            }
+                        }
+                        else
+                        {
+                            Session["_wrn"] = " Atencion: Ese titulo ya existe ";
+                        }
+                    }
+                    else
+                    {
+                        Session["_wrn"] = " Atencion: La clave del libro ya esta en uso";
+                    }
+                }                    
             }
             catch (Exception ex)
             {
@@ -100,6 +160,37 @@ namespace PresentacionWeb
                 Session["_err"] = $" Error : '{ex.Message}' ";
             }
         }
+
+        private void cambiosTituloAutor(string clave, string autor, string titulo)
+        {
+            if (Request.Cookies["SessionUser"]["_idAutor"] == null || Request.Cookies["SessionUser"]["_titulo"] == null)
+            {
+                if (lNLibro.libroRepetido(libro) == false)
+                {
+                    hacerModificacion(clave);
+                }
+                else
+                {
+                    Session["_wrn"] = " Atencion: No se puede actualizar porque el título y autor ya existen";
+                    limpiar();
+                }
+            }
+            else
+            {
+                hacerModificacion(clave);
+            }
+        }
+
+        private void hacerModificacion(string clave)
+        {
+            if (lNLibro.modificar(libro, clave) > 0)
+                Session["_exito"] = " Mensaje: Ha actualizado el libro con exito ";
+            else
+                Session["_wrn"] = " Atencion:No se pudo modificar";
+
+            limpiar();
+        }
+
 
         private void limpiar()
         {
@@ -111,6 +202,8 @@ namespace PresentacionWeb
             txtNombreAutor.Text = "";
             txtTitulo.Text = "";
             txtUdCategoria.Text = "";
+            cargarGridAutores();
+            cargarGridCategorias();
         }
 
         protected void btnFiltroCategoria_Click(object sender, EventArgs e)
@@ -204,5 +297,42 @@ namespace PresentacionWeb
             Session.Remove("_exito");
             Response.Redirect("wfrmVistaLibros.aspx");
         }
+
+        private bool verificarAlgunCambio(ref bool bCl,ref bool bT,ref bool bAu,ref bool bCat)
+        {
+            bool resul = false;
+            
+            if (Request.Cookies["SessionUser"]["_claveLibro"] != null)
+            {
+                if (txtClaveLibro.Text != Request.Cookies["SessionUser"]["_claveLibro"])
+                {
+                    resul = true;
+                }
+            }
+            if (Request.Cookies["SessionUser"]["_idAutor"] != null)
+            {
+                if (txtIdAutor.Text != Request.Cookies["SessionUser"]["_idAutor"])
+                {
+                    resul = true;
+                }
+            }
+            if (Request.Cookies["SessionUser"]["_idCategoria"] != null)
+            {
+                if (txtUdCategoria.Text != Request.Cookies["SessionUser"]["_idCategoria"])
+                {
+                    resul = true;
+                }
+            }
+            if (Request.Cookies["SessionUser"]["_titulo"] != null)
+            {
+                if (txtTitulo.Text != Request.Cookies["SessionUser"]["_titulo"])
+                {
+                    resul = true;
+                }
+            }
+
+            return resul;
+        }
+
     }
 }

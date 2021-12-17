@@ -55,7 +55,8 @@ namespace PresentacionWeb
 
         protected void lnkModificar_Command(object sender, CommandEventArgs e)
         {
-            //Session["_wrn"] = e.CommandArgument.ToString();
+            Session["_claveLibro"] = e.CommandArgument.ToString();
+            Response.Redirect("wfrLibro.aspx");
 
         }
 

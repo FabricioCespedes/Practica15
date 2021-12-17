@@ -98,11 +98,12 @@ namespace LogicaNegocio
         }
 
 
-        public int eliminar(ELibro libro) {
+        public int eliminar(string claveLibro)
+        {
             int result;
             try
             {
-                result = adLibro.eliminar(libro);
+                result = adLibro.eliminar(claveLibro);
             }
             catch (Exception ex)
             {

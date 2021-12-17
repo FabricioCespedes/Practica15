@@ -21,7 +21,7 @@
         <a class="nav-link" href="wfrmVistaLibros.aspx">Libros</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Editoriales</a>
+        <a class="nav-link" href="wfrmVistaEditoriales.aspx">Editoriales</a>
       </li>
     </ul>
     <form id="form1" runat="server">

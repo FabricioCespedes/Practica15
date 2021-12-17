@@ -252,15 +252,12 @@ namespace AccesoDatos
             return libro;
         }
 
-        public int eliminar(ELibro libro) {
+        public int eliminar(string claveLibro) {
             int result = -1;
-            string sentecia ="Delete from Libro Where claveLibro=@claveLibro";
+            string sentecia = $"Delete from Libro Where claveLibro= '{claveLibro}'";
 
             SqlConnection conexion = new SqlConnection(cadConexion);
             SqlCommand comando = new SqlCommand(sentecia,conexion);
-
-            comando.Parameters.AddWithValue("@claveLibro", libro.ClaveLibro);
-
             try
             {
                 conexion.Open();

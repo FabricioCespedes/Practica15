@@ -11,7 +11,7 @@ namespace PresentacionWeb
 {
 
 
-    public partial class wfrmLibroEliminar
+    public partial class wfrmEliminarEditorial
     {
 
         /// <summary>

@@ -8,6 +8,15 @@
         </div>
         <br />
         <%--Alert--%>
+        <%  if (Session["_exito"] != null)
+            {%>
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong><%= Session["_exito"].ToString()%> </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <% Session["_exito"] = null;
+            } %>
         <%if (Session["_err"]!=null)
             {%>
          <div class="alert alert-danger" role="alert" >
@@ -43,19 +52,19 @@
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkModificar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>' OnCommand="lnkModificar_Command" ForeColor="#33CC33">M<i class="fas fa-edit"></i></asp:LinkButton>
+                        <asp:LinkButton ID="lnkModificar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>' OnCommand="lnkModificar_Command" ForeColor="#33CC33" ToolTip="Modificar">M<i class="fas fa-edit"></i></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkEliminar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>' ForeColor="Red" OnCommand="lnkEliminar_Command">E<i class="far fa-trash-alt"></i></asp:LinkButton>
+                        <asp:LinkButton ID="lnkEliminar" runat="server" CommandArgument='<%# Eval("Clave").ToString() %>' ForeColor="Red" OnCommand="lnkEliminar_Command" ToolTip="Eliminar"><i class="far fa-trash-alt"></i></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField="Clave" HeaderText="Clave" >
+                <asp:BoundField DataField="clave" HeaderText="Clave" >
                 <ItemStyle ForeColor="Black" />
                 </asp:BoundField>
                 <asp:BoundField DataField="Titulo" HeaderText="Titulo" />
-                <asp:BoundField DataField="Nombre" HeaderText="Autor" />
+                <asp:BoundField DataField="Autor" HeaderText="Autor" />
                 <asp:BoundField DataField="Categoria" HeaderText="Categoria" />
             </Columns>
             <FooterStyle BackColor="#CCCC99" />

@@ -73,8 +73,12 @@
     <Content Include="JavaScript.js" />
     <Content Include="Web.config" />
     <Content Include="wfrLibro.aspx" />
+    <Content Include="wfrmEditorial.aspx" />
+    <Content Include="wfrmEjemplaresAsociados.aspx" />
+    <Content Include="wfrmEliminarEditorial.aspx" />
     <Content Include="wfrmInicio.aspx" />
     <Content Include="wfrmLibroEliminar.aspx" />
+    <Content Include="wfrmVistaEditoriales.aspx" />
     <Content Include="wfrmVistaLibros.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +90,27 @@
     </Compile>
     <Compile Include="wfrLibro.aspx.designer.cs">
       <DependentUpon>wfrLibro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfrmEditorial.aspx.cs">
+      <DependentUpon>wfrmEditorial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfrmEditorial.aspx.designer.cs">
+      <DependentUpon>wfrmEditorial.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfrmEjemplaresAsociados.aspx.cs">
+      <DependentUpon>wfrmEjemplaresAsociados.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfrmEjemplaresAsociados.aspx.designer.cs">
+      <DependentUpon>wfrmEjemplaresAsociados.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfrmEliminarEditorial.aspx.cs">
+      <DependentUpon>wfrmEliminarEditorial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfrmEliminarEditorial.aspx.designer.cs">
+      <DependentUpon>wfrmEliminarEditorial.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfrmInicio.aspx.cs">
       <DependentUpon>wfrmInicio.aspx</DependentUpon>
@@ -100,6 +125,13 @@
     </Compile>
     <Compile Include="wfrmLibroEliminar.aspx.designer.cs">
       <DependentUpon>wfrmLibroEliminar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfrmVistaEditoriales.aspx.cs">
+      <DependentUpon>wfrmVistaEditoriales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfrmVistaEditoriales.aspx.designer.cs">
+      <DependentUpon>wfrmVistaEditoriales.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfrmVistaLibros.aspx.cs">
       <DependentUpon>wfrmVistaLibros.aspx</DependentUpon>
