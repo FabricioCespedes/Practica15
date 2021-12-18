@@ -63,12 +63,26 @@ namespace LogicaNegocio
             return result;
         }
 
-        public int eliminar(EEditorial editorial)
+        public int eliminar(string claveEditorial)
         {
             int result;
             try
             {
-                result = accesoDatos.eliminar(editorial);
+                result = accesoDatos.eliminar(claveEditorial);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public int modificar(EEditorial editorial, string claveVieja = "")
+        {
+            int result;
+            try
+            {
+                result = accesoDatos.modificar(editorial, claveVieja);
             }
             catch (Exception ex)
             {

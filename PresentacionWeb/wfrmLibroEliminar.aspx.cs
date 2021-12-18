@@ -12,7 +12,6 @@ namespace PresentacionWeb
 {
     public partial class wfrmLibroEliminar : System.Web.UI.Page
     {
-        ELibro eLibro ;
         LNLibro lNLibro = new LNLibro(Config.getCadConexion);
         protected void Page_Load(object sender, EventArgs e)
         {

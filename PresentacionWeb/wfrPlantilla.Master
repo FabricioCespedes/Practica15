@@ -13,19 +13,19 @@
     <script src="https://kit.fontawesome.com/9d13be785a.js" crossorigin="anonymous"></script>
 </head>
 <body>
-     <ul class="nav justify-content-center">
+     <ul class="nav justify-content-center navbar navbar-dark bg-dark"">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="wfrmInicio.aspx">Inicio</a>
+        <a class="nav-link active text-capitalize" aria-current="page" href="wfrmInicio.aspx">Inicio</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="wfrmVistaLibros.aspx">Libros</a>
+        <a class="nav-link text-capitalize" href="wfrmVistaLibros.aspx">Libros</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="wfrmVistaEditoriales.aspx">Editoriales</a>
+        <a class="nav-link text-capitalize" href="wfrmVistaEditoriales.aspx">Editoriales</a>
       </li>
     </ul>
     <form id="form1" runat="server">
-        <div>
+        <div class="container-fluid">
             <asp:ContentPlaceHolder ID="frmBody" runat="server">
             </asp:ContentPlaceHolder>
         </div>

@@ -78,8 +78,9 @@ namespace PresentacionWeb
 
         protected void LinkButton3_Command(object sender, CommandEventArgs e)
         {
+            Session.RemoveAll();
             Session["_claveEditorial"] = e.CommandArgument.ToString();
-            Response.Redirect("wfrmEjemplaresAsociados.aspx");
+            Response.Redirect("wfrmEjemplaresAsociados.aspx",false);
         }
 
         protected void LinkButton2_Command(object sender, CommandEventArgs e)
@@ -92,8 +93,9 @@ namespace PresentacionWeb
                 ejemplar = lNEjemplar.BuscarRegistro(condicion);
                 if (ejemplar.ClaveEjemplar == null)
                 {
+                    Session.RemoveAll();
                     Session["_claveEditorial"] = e.CommandArgument.ToString();
-                    Response.Redirect("wfrmEliminarEditorial.aspx");
+                    Response.Redirect("wfrmEliminarEditorial.aspx",false);
                 }
                 else
                 {
@@ -104,6 +106,13 @@ namespace PresentacionWeb
             {
                 Session["_err"] = $"Error: {ex.Message}";
             }
+        }
+
+        protected void LinkButton1_Command(object sender, CommandEventArgs e)
+        {
+            Session.RemoveAll();
+            Session["_claveEditorial"] = e.CommandArgument.ToString();
+            Response.Redirect("wfrmEditorial.aspx", false);
         }
     }
 }

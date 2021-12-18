@@ -108,7 +108,7 @@ namespace AccesoDatos
             return result;
         }
 
-        public int eliminar(EEditorial editorial)
+        public int eliminar(string claveEditorial)
         {
             int result = -1;
             string sentecia = "Delete from Editorial Where claveEditorial=@claveEditorial";
@@ -116,7 +116,7 @@ namespace AccesoDatos
             SqlConnection conexion = new SqlConnection(cadConexion);
             SqlCommand comando = new SqlCommand(sentecia, conexion);
 
-            comando.Parameters.AddWithValue("@claveEditorial", editorial.ClaveEditorial);
+            comando.Parameters.AddWithValue("@claveEditorial", claveEditorial);
 
             try
             {
@@ -137,7 +137,7 @@ namespace AccesoDatos
             return result;
         }
 
-        public int modificar(ELibro libro, string claveVieja = "")
+        public int modificar(EEditorial editorial, string claveVieja = "")
         {
             int result = -1;
             string sentencia;
@@ -146,17 +146,13 @@ namespace AccesoDatos
             SqlCommand comando = new SqlCommand();
 
             if (string.IsNullOrEmpty(claveVieja))
-                sentencia = "Update Editorial set nombre=@nombre Where claveLibro=@claveLibro";
+                sentencia = "Update Editorial set nombre=@nombre Where claveEditorial=@claveEditorial";
             else
-                sentencia = $"Update libro set claveLibro=@claveLibro, titulo=@titulo, claveAutor=@claveAutor, claveCategoria = @claveCategoria Where claveLibro='{claveVieja}'";
-
+                sentencia = $"Update Editorial set claveEditorial=@claveEditorial, nombre=@nombre Where claveEditorial='{claveVieja}'";
             comando.Connection = conexion;
             comando.CommandText = sentencia;
-
-            comando.Parameters.AddWithValue("@claveLibro", libro.ClaveLibro);
-            comando.Parameters.AddWithValue("@titulo", libro.Titulo);
-            comando.Parameters.AddWithValue("@claveAutor", libro.ClaveAutor);
-            comando.Parameters.AddWithValue("@claveCategoria", libro.Clavecategoria.ClaveCategoria);
+            comando.Parameters.AddWithValue("@claveEditorial", editorial.ClaveEditorial);
+            comando.Parameters.AddWithValue("@nombre", editorial.Nombre);
 
             try
             {

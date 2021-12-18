@@ -42,7 +42,8 @@ namespace PresentacionWeb
                             cookie["_idAutor"] = libro.ClaveAutor;
                             cookie["_idCategoria"] = libro.Clavecategoria.ClaveCategoria;
                             cookie["_titulo"] = libro.Titulo;
-                            cookie.Expires = DateTime.Now.AddDays(1);
+                            cookie.Expires = DateTime.Now.AddHours(1);
+                            Response.Cookies.Add(cookie);
                         }
                     }
                 }
@@ -98,14 +99,15 @@ namespace PresentacionWeb
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            // 
+            
             try
             {
                 if (Session["_claveLibro"] != null)
                 {
-                    bool bCl =false ;  bool bT = false; bool bAu = false; bool bCat = false;
+                     bool bCl =false ;  bool bT = false; bool bAu = false; bool bCat = false;
 
-                    if (verificarAlgunCambio(ref bCl, ref bT, ref  bAu, ref bCat) == true)
+                     
+                    if (verificarAlgunCambio(ref bCl, ref bT, ref bAu, ref bCat) == true)
                     {
                         libro.ClaveLibro = txtClaveLibro.Text;
                         libro.Titulo = txtTitulo.Text;
@@ -116,7 +118,7 @@ namespace PresentacionWeb
                         {
                             if (lNLibro.claveLibroRepetida(libro.ClaveLibro) == false)
                             {
-                                cambiosTituloAutor(Session["_claveLibro"].ToString(), libro.ClaveAutor, libro.Titulo);
+                                cambiosTituloAutor(Session["_claveLibro"].ToString());
                             }
                             else
                             {
@@ -125,7 +127,7 @@ namespace PresentacionWeb
                         }
                         else
                         {
-                            cambiosTituloAutor("", libro.ClaveAutor, libro.Titulo);
+                            cambiosTituloAutor("");
                         }
                     }
                 }
@@ -161,9 +163,9 @@ namespace PresentacionWeb
             }
         }
 
-        private void cambiosTituloAutor(string clave, string autor, string titulo)
+        private void cambiosTituloAutor(string clave)
         {
-            if (Request.Cookies["SessionUser"]["_idAutor"] == null || Request.Cookies["SessionUser"]["_titulo"] == null)
+            if (Request.Cookies["SessionUser"]["_idAutor"] != txtIdAutor.Text || Request.Cookies["SessionUser"]["_titulo"] != txtTitulo.Text)
             {
                 if (lNLibro.libroRepetido(libro) == false)
                 {
@@ -172,7 +174,6 @@ namespace PresentacionWeb
                 else
                 {
                     Session["_wrn"] = " Atencion: No se puede actualizar porque el título y autor ya existen";
-                    limpiar();
                 }
             }
             else
@@ -298,32 +299,33 @@ namespace PresentacionWeb
             Response.Redirect("wfrmVistaLibros.aspx");
         }
 
-        private bool verificarAlgunCambio(ref bool bCl,ref bool bT,ref bool bAu,ref bool bCat)
+        
+        private bool verificarAlgunCambio(ref bool bCl, ref bool bT, ref bool bAu, ref bool bCat)
         {
             bool resul = false;
             
-            if (Request.Cookies["SessionUser"]["_claveLibro"] != null)
+            if (Request.Cookies["SessionUser"] != null)
             {
                 if (txtClaveLibro.Text != Request.Cookies["SessionUser"]["_claveLibro"])
                 {
                     resul = true;
                 }
             }
-            if (Request.Cookies["SessionUser"]["_idAutor"] != null)
+            if (Request.Cookies["SessionUser"] != null)
             {
                 if (txtIdAutor.Text != Request.Cookies["SessionUser"]["_idAutor"])
                 {
                     resul = true;
                 }
             }
-            if (Request.Cookies["SessionUser"]["_idCategoria"] != null)
+            if (Request.Cookies["SessionUser"] != null)
             {
                 if (txtUdCategoria.Text != Request.Cookies["SessionUser"]["_idCategoria"])
                 {
                     resul = true;
                 }
             }
-            if (Request.Cookies["SessionUser"]["_titulo"] != null)
+            if (Request.Cookies["SessionUser"] != null)
             {
                 if (txtTitulo.Text != Request.Cookies["SessionUser"]["_titulo"])
                 {

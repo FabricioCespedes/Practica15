@@ -8,21 +8,30 @@
             <h1>Gestionar Editoriales</h1>
         </div>
         <br />
-        <%--Alert--%>        <%if (Session["_err"]!=null)
+        <%--Alert--%>
+        <%  if (Session["_exito"] != null)
             {%>
-         <div class="alert alert-danger" role="alert" >
-             <% = Session["_err"]%>  
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong><%= Session["_exito"].ToString()%> </strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-         </div>
+        </div>
+        <% }%>
+        <%if (Session["_err"]!=null)
+            {%>
+        <div class="alert alert-danger" role="alert">
+            <% = Session["_err"]%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
         <% }%>
         <%if (Session["_wrn"]!=null)
             {%>
-            <div class="alert alert-warning" role="alert">
-                     <% = Session["_wrn"]%>  
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% }%>        <%--AlertEND--%>
+        <div class="alert alert-warning" role="alert">
+            <% = Session["_wrn"]%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% }%>
+        <%--AlertEND--%>
         <div class="row mt-3">
             <div class="col-auto">
                 <asp:Label ID="Label1" runat="server" Text="Titulo del editorial"></asp:Label> 
@@ -42,17 +51,17 @@
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# Eval("claveEditorial").ToString() %>'>Modificar</asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# Eval("claveEditorial").ToString() %>' OnCommand="LinkButton1_Command" ToolTip="Modificar una editorial"><i class="fas fa-edit"></i></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton2" runat="server" CommandArgument='<%# Eval("claveEditorial").ToString() %>' OnCommand="LinkButton2_Command">Eliminar</asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton2" runat="server" CommandArgument='<%# Eval("claveEditorial").ToString() %>' OnCommand="LinkButton2_Command" ToolTip="Eliminar una editorial"><i class="far fa-trash-alt"></i></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton3" runat="server" CommandArgument='<%# Eval("claveEditorial").ToString() %>' OnCommand="LinkButton3_Command">Ejemplares</asp:LinkButton>
+                        <asp:LinkButton ID="LinkButton3" runat="server" CommandArgument='<%# Eval("claveEditorial").ToString() %>' OnCommand="LinkButton3_Command" ToolTip="Ejemplares de esta editorial"><i class="fas fa-book-open"></i></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="claveEditorial" HeaderText="Clave Editorial" ReadOnly="True" />
